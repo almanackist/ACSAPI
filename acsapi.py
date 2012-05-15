@@ -23,7 +23,7 @@ import math
 
 
 # Globals
-APIKEY = '531b63cec265a38f8de88d58d3a25eb7cb62b6a5'
+APIKEY = ''
 STATES = {u'Mississippi': u'28', u'Oklahoma': u'40', u'Delaware': u'10', u'Minnesota': u'27', u'Illinois': u'17', u'Arkansas': u'05', u'New Mexico': u'35', u'Indiana': u'18', u'Maryland': u'24', u'Louisiana': u'22', u'Idaho': u'16', u'Wyoming': u'56', u'Tennessee': u'47', u'Arizona': u'04', u'Iowa': u'19', u'Michigan': u'26', u'Kansas': u'20', u'Utah': u'49', u'Virginia': u'51', u'Oregon': u'41', u'Connecticut': u'09', u'Montana': u'30', u'California': u'06', u'Massachusetts': u'25', u'West Virginia': u'54', u'South Carolina': u'45', u'New Hampshire': u'33', u'Wisconsin': u'55', u'Vermont': u'50', u'Georgia': u'13', u'North Dakota': u'38', u'Pennsylvania': u'42', u'Puerto Rico': u'72', u'Florida': u'12', u'Alaska': u'02', u'Kentucky': u'21', u'Hawaii': u'15', u'Nebraska': u'31', u'Missouri': u'29', u'Ohio': u'39', u'Alabama': u'01', u'New York': u'36', u'Colorado': u'08', u'South Dakota': u'46', u'NAME': u'state', u'New Jersey': u'34', u'Washington': u'53', u'North Carolina': u'37', u'District of Columbia': u'11', u'Texas': u'48', u'Nevada': u'32', u'Maine': u'23', u'Rhode Island': u'44'}
 
 ### TEMPLATE VARIABLES
