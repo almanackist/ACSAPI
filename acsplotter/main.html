@@ -1,0 +1,55 @@
+
+
+<form method = "post">
+	<select name="loctype">
+		<option values="state">state</option>
+		<option values="county+subdivision">county subdivision</option>
+		<option values="subminor+civil+subdivision">subminor civil subdivision</option>
+		<option values="tract">tract</option>
+		<option values="block+group">block group</option>
+		<option values="block">block</option>
+		<option values="place">place</option>
+		<option values="congressional+district">congressional district</option>
+		<option values="zip+code+tabulation+area">ZCTA</option>
+	</select>
+
+	<label>
+		<div>subject</div>
+		<input type="text" name="locs" value="{{locs}}">
+	</label>
+	 
+	 	<div class="error">{{error}}</div>
+
+	
+	<select name="intype">
+		<option values="state">state</option>
+		<option values="county+subdivision">county subdivision</option>
+		<option values="subminor+civil+subdivision">subminor civil subdivision</option>
+		<option values="tract">tract</option>
+		<option values="block+group">block group</option>
+		<option values="block">block</option>
+		<option values="place">place</option>
+		<option values="congressional+district">congressional district</option>
+		<option values="zip+code+tabulation+area">ZCTA</option>
+	</select>
+
+	<label>
+		<div>content</div>
+		<input type="text" name="inlocs">{{inlocs}}
+	</label>
+	 	
+
+	
+	<br>
+	<input type="submit">
+</form>
+	
+county
+county subdivision
+subminor civil subdivision
+tract
+block group
+block
+place
+congressional district
+zip code tabulation area
