@@ -18,17 +18,18 @@ import os
 import sys
 import webapp2
 import jinja2
-from BeautifulSoup import BeautifulSoup
-import urllib
-import simplejson
+import urllib2
+import json
 import re
-from google.appengine.ext import db
+from google.appengine.api import urlfetch
 
 APIKEY = '531b63cec265a38f8de88d58d3a25eb7cb62b6a5'
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
+
+FIPSmapStates = {'56': 'WY', '54': 'WV', '42': 'PA', '50': 'VT', '60': 'AS', '49': 'UT', '66': 'GU', '53': 'WA', '24': 'MD', '25': 'MA', '26': 'MI', '27': 'MN', '20': 'KS', '21': 'KY', '22': 'LA', '23': 'ME', '46': 'SD', '47': 'TN', '44': 'RI', '45': 'SC', '28': 'MS', '29': 'MO', '40': 'OK', '41': 'OR', '1': 'AL', '2': 'AK', '5': 'AR', '4': 'AZ', '6': 'CA', '9': 'CT', '8': 'CO', '51': 'VA', '39': 'OH', '38': 'ND', '72': 'PR', '78': 'VI', '11': 'DC', '10': 'DE', '13': 'GA', '12': 'FL', '15': 'HI', '48': 'TX', '17': 'IL', '16': 'ID', '19': 'IA', '18': 'IN', '31': 'NE', '30': 'MT', '37': 'NC', '36': 'NY', '35': 'NM', '34': 'NJ', '33': 'NH', '55': 'WI', '32': 'NV'}
 
 
 class ACSquery(object):
@@ -45,10 +46,10 @@ class ACSquery(object):
         params = "?key=%(apikey)s&get=%(tables)s,NAME&for=%(loctype)s:%(locs)s" % kwargs
         if kwargs.get('intype'):
                 params += "&in=%(intype)s:%(inlocs)s" % kwargs
-        rawdata = urllib.urlopen('http://thedataweb.rm.census.gov/data/2010/acs5' + params).read()
+        rawdata = urlfetch.fetch('http://thedataweb.rm.census.gov/data/2010/acs5' + params)
         self.tables = kwargs.get('tables')
-        self.header = simplejson.loads(rawdata)[0]
-        self.results = simplejson.loads(rawdata)[1:]
+        self.header = json.loads(rawdata.content)[0]
+        self.results = json.loads(rawdata.content)[1:]
         self.dict = {self.tables: {'total':{}}}
         for r in self.results:
             self.dict[self.tables]['total'][str(r[1])] = int(r[0])
@@ -58,63 +59,63 @@ class ACSquery(object):
 
 
 def ACSmapSVG(APIKEY, table):
+    colors = ["#FEEDDE", "#FDD0A2", "#FDAE6B", "#FD8D3C", "#E6550D", "#A63603"]
+    
     patt = re.compile('B\d+_')
     totals = patt.findall(table)[0]+'001E'
     
-    data = ACSquery(apikey=APIKEY, tables=','.join([table,totals]), loctype='county', locs='*')
+    counties = ACSquery(apikey=APIKEY, tables=','.join([table,totals]), loctype='county', locs='*')
+    districts = ACSquery(apikey=APIKEY, tables=','.join([table,totals]), loctype='congressional+district', locs='*')
     
+    county_results = {}
+    for i in counties.results:
+        county_results[str(i[3])+str(i[4])] = float(i[0])/float(i[1])
+    county_result_total = sum(county_results.values())
     
-    results = {}
-    for i in data.results:
-        results[str(i[3])+str(i[4])] = float(i[0])/float(i[1])
-    result_total = sum(results.values())
-        
-    svg = open('USA_Counties_with_FIPS_and_names.svg', 'r').read()
-    soup = BeautifulSoup(svg, selfClosingTags=['defs','sodipodi:namedview'])
-    paths = soup.findAll('path')
-    colors = ["#FEEDDE", "#FDD0A2", "#FDAE6B", "#FD8D3C", "#E6550D", "#A63603"]
+    district_results = {}
+    for i in districts.results:
+        if i[4] == "00":
+            district_results['_'.join([FIPSmapStates[str(int((i[3])))], 'AtLarge'])] = float(i[0])/float(i[1])            
+        else:
+            district_results['_'.join([FIPSmapStates[str(int((i[3])))], str(int(i[4]))])] = float(i[0])/float(i[1])
+    district_result_total = sum(district_results.values())
     
-    path_style = 'font-size:12px;fill-rule:nonzero;stroke:#FFFFFF;\
-    stroke-opacity:1;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;\
-    stroke-linecap:butt;marker-start:none;stroke-linejoin:bevel;fill:'
-    
-    for p in paths:
-        if p['id'] not in ["State_Lines", "separator"]:
-            try:
-                rate = results[p['id']]
-            except:
-                continue
-            if rate > .9:
-                color_class = 5
-            elif rate > .7:
-                color_class = 4
-            elif rate > .5:
-                color_class = 3
-            elif rate > .3:
-                color_class = 2
-            elif rate > .1:
-                color_class = 1
-            else:
-                color_class = 0     
-            color = colors[color_class]
-            p['style'] = path_style + color
-    
-    return soup()[0]
-    
-#    filename = '/static/mapper.svg'
-#    f = open(filename, 'w')
-#    f.write(soup.prettify())
-#    f.close()
-
-
-#apikey = '531b63cec265a38f8de88d58d3a25eb7cb62b6a5'
-#table = raw_input('ACS table: ')
-#ACSmapSVG(apikey, table)
-
-class SVGmap(db.Model):
-    svg = db.BlobProperty(required = True)
-    title = db.StringProperty(required = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
+    county_colors = {}
+    district_colors = {}
+    for county in county_results:
+        rate = county_results[county]
+        if rate > .9:
+            color_class = 5
+        elif rate > .7:
+            color_class = 4
+        elif rate > .5:
+            color_class = 3
+        elif rate > .3:
+            color_class = 2
+        elif rate > .1:
+            color_class = 1
+        else:
+            color_class = 0     
+        color = colors[color_class]
+        county_colors[int(county)] = color
+    for district in district_results:
+        rate = district_results[district]
+        if rate > .9:
+            color_class = 5
+        elif rate > .7:
+            color_class = 4
+        elif rate > .5:
+            color_class = 3
+        elif rate > .3:
+            color_class = 2
+        elif rate > .1:
+            color_class = 1
+        else:
+            color_class = 0     
+        color = colors[color_class]
+        district_colors[district] = color        
+         
+    return county_colors, district_colors
 
     
 class Handler(webapp2.RequestHandler):
@@ -143,12 +144,9 @@ class ACSMapHandler(Handler):
         self.acs_table = self.request.get('acs_table')
         
         if self.acs_table:
-            self.acs_svg = str(ACSmapSVG(APIKEY, self.acs_table))
-            #self.write(self.acs_svg)
-            #self.render('ACSmap.html', acs_svg = self.acs_svg)
-            map = SVGmap(svg = self.acs_svg, title = self.acs_table)
-            map.put()
-
+            county_colors, district_colors = ACSmapSVG(APIKEY, self.acs_table)
+            self.render('ACSmap.html', district_colors=district_colors, county_colors=county_colors, acs_table=self.acs_table)
+            
 
 app = webapp2.WSGIApplication([('/', ACSMapHandler)],
                               debug=True)

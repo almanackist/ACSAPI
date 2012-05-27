@@ -41,7 +41,7 @@ def ACSmapSVG(APIKEY, table):
         results[str(i[3])+str(i[4])] = float(i[0])/float(i[1])
     result_total = sum(results.values())
         
-    svg = open('USA_Counties_with_FIPS_and_names.svg', 'r').read()
+    svg = open('/Users/alanj/Documents/workspace/ACSAPI/acsmapper/USA_Counties_with_FIPS_and_names.svg', 'r').read()
     soup = BeautifulSoup(svg, selfClosingTags=['defs','sodipodi:namedview'])
     paths = soup.findAll('path')
     colors = ["#FEEDDE", "#FDD0A2", "#FDAE6B", "#FD8D3C", "#E6550D", "#A63603"]

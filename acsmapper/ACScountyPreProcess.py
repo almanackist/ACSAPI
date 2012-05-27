@@ -13,7 +13,7 @@ def ACScountySVGPreProcess():
     
     for p in paths:
         if p['id'] not in ["State_Lines", "separator"]:
-            color = '{{county_%s_color}}' % p['id']
+            color = '{{county_colors[%s]}}' % p['id']
             p['style'] = path_style + color
     
     print soup.prettify()
