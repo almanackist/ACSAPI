@@ -1,0 +1,56 @@
+(lp0
+VB01001.  Sex by Age
+p1
+aVB01002.  Median Age by Sex
+p2
+aVB01003.  Total Population
+p3
+aVB02001.  Race
+p4
+aVB02006.  Asian Alone By Selected Groups
+p5
+aVB03001.  Hispanic or Latino by Specific Origin
+p6
+aVB03002.  Hispanic or Latino by Race
+p7
+aVB05001.  CITIZENSHIP STATUS IN THE UNITED STATES
+p8
+aVB05002.  Place of Birth by Citizenship Status
+p9
+aVB08006.  Sex of Workers by Means of Transportation to Work
+p10
+aVB15002.  Sex by Educational Attainment for the Population 25 Years and over
+p11
+aVB17001.  Poverty Status in the past 12 Months by Sex by Age
+p12
+aVB17010.  Poverty Status of Families by Family Type by Presence of Related Children Under 18 Years by Age
+p13
+aVB19001.  Household Income
+p14
+aVB19013.  Median Household Income
+p15
+aVB19101.  Family Income
+p16
+aVB19301.  Per Capita Income
+p17
+aVB20004.  Median Earnings by Sex by Educational Attainment for the Population 25 Years and Over
+p18
+aVB23001.  Sex by Age by Employment Status for the Population 16 Years and over
+p19
+aVB25001.  Housing Units
+p20
+aVB25002.  Occupancy Status
+p21
+aVB25003.  Tenure
+p22
+aVB25004.  Vacancy Status
+p23
+aVB25024.  Units in Structure
+p24
+aVB25034.  Year Structure Built
+p25
+aVB25070.  Gross Rent as a Percentage of Household Income
+p26
+aVB25087.  Mortgage Status and Selected Monthly Owner Costs for Owner-Occupied Housing Units
+p27
+a.

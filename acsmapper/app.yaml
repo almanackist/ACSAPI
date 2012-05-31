@@ -4,11 +4,17 @@ runtime: python27
 api_version: 1
 threadsafe: yes
 
+inbound_services:
+- warmup
+
 handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
 
+- url: /js
+  static_dir: static/js
+  
 - url: /(.*\.svg)
   static_files: static/\1
   upload: static/(.*\.svg)

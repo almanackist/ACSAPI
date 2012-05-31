@@ -4,28 +4,95 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.js" type="text/javascript" charset="utf-8"></script>
 	<script src="http://d3js.org/d3.v2.js" type="text/javascript" charset="utf-8"></script>			
+	<script type="text/javascript" src="/js/1js.js"></script>
+
 
 </head>
 
+
 <body>
 
+<!--
+	{% if ACStables %}
 	<form method = "post">
 
-	 	<label>
-	 		<div>ACS Table</div>
-	 		<input type="text" name="acs_table" value="{{acs_table}}">
-	 	</label>
-
+		<select name="acs_id">
+			{% for id in ACStables %}
+			<option value={{id}}>{{id}}</option>
+			{% endfor %}
+		</select>
 	<input type="submit">
-		
 	</form>
+	{% endif %}
+	
+	{% if ACSselected %}
+	<form method = "post">
+		<select name="acs_table">
+			{% for table in ACSselected %}
+			<option value={{table[0]}}>{{table[2]}}</option>
+			{% endfor %}
+		</select>
+	<input type="submit">		
+	</form>
+	{% endif %}
+-->
+
+<!-- ####################### copy the code below to where you want the menu to appear ####################### -->
+
+<form name="formDoubleMenuDMA" >
+
+<p><font size="2">Select a subject and then a page to go!</FONT>:<br>
+
+<!-- This menu holds the subjects-->
+
+<select name="menuSubjectsDMA" onChange="changeFilesDMA()">
+
+<option value="">Choose a topic</option>
+<option value="">B01001.  Sex by Age</option>
+<option value="">B01002.  Median Age by Sex</option>
+<option value="">B01003.  Total Population</option>
+<option value="">B02001.  Race</option>
+<option value="">B02006.  Asian Alone By Selected Groups</option>
+<option value="">B03001.  Hispanic or Latino by Specific Origin</option>
+<option value="">B03002.  Hispanic or Latino by Race</option>
+<option value="">B05001.  Citizenship Status</option>
+<option value="">B05002.  Place of Birth by Citizenship Status</option>
+<option value="">B08006.  Sex of Workers by Means of Transportation to Work</option>
+<option value="">B15002.  Sex by Educational Attainment for the Population 25 Years and over</option>
+<option value="">B17001.  Poverty Status in the past 12 Months by Sex by Age</option>
+<option value="">B17010.  Poverty Status of Families by Family Type by Presence of Related Children Under 18 Years by Age</option>
+<option value="">B19001.  Household Income</option>
+<option value="">B19013.  Median Household Income</option>
+<option value="">B19101.  Family Income</option>
+<option value="">B19301.  Per Capita Income</option>
+<option value="">B20004.  Median Earnings by Sex by Educational Attainment for the Population 25 Years and Over</option>
+<option value="">B23001.  Sex by Age by Employment Status for the Population 16 Years and over</option>
+<option value="">B25001.  Housing Units</option>
+<option value="">B25002.  Occupancy Status</option>
+<option value="">B25003.  Tenure</option>
+<option value="">B25004.  Vacancy Status</option>
+<option value="">B25024.  Units in Structure</option>
+<option value="">B25034.  Year Structure Built</option>
+<option value="">B25070.  Gross Rent as a Percentage of Household Income</option>
+<option value="">B25087.  Mortgage Status and Selected Monthly Owner Costs for Owner-Occupied Housing Units</option>
+
+		
+</select>
+
+<!-- this menu holds the files to go-->
+
+<select name="menuFilesDMA" onChange="goDMA(this)" style="width:300">
+
+<option value="none"> Pages appear here
+
+</select>
+
+</form>
+
+<!-- ####################### stop copying the menu code (DMA) here ####################### -->
 
 
 <br>	
-
-
-<h1>{{acs_table}}</h1>
-<br>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
@@ -37,8 +104,9 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="555.22198"
-   height="351.66797"
+   width="100%" 
+   height="80%"
+   viewBox="0 0 555.22198 351.66797"
    id="svg9559"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
@@ -15821,9 +15889,32 @@
      style="fill:none;stroke:#a9a9a9;stroke-width:1.29999995"
      id="separator" />
 </svg>
-
+{% if county_result_scale %}
+<table cellpadding=5 class="map-key">
+	<tr>
+		<td bgcolor="#FEEDDE">
+			{{county_result_scale[0]}}% ->
+		</td>
+		<td bgcolor="#FDD0A2">
+			{{county_result_scale[1]}}% ->
+		</td>
+		<td bgcolor="#FDAE6B">
+			{{county_result_scale[2]}}% ->
+		</td>
+		<td bgcolor="#FD8D3C">
+			{{county_result_scale[3]}}% ->
+		</td>
+		<td bgcolor="#E6550D">
+			{{county_result_scale[4]}}% ->
+		</td>
+		<td bgcolor="#A63603">
+			{{county_result_scale[5]}}% ->
+		</td>
+	</tr>
+</table>
+{% endif %}
 {% if county_colors %}
-
+<h3>{{table_info[0][1]}} : {{table_info[0][2]}}<h3>
 
 <script type="text/javascript" charset="utf-8">
 	var color_classes = ["#FEEDDE", "#FDD0A2", "#FDAE6B", "#FD8D3C", "#E6550D", "#A63603"]
@@ -15835,14 +15926,18 @@
 			if(data.id in county_colors){
 				data.style.fill = color_classes[county_colors[data.id]]
 				}
-				}
-				);
+			}
+		);
 
 </script>
 {% endif %}
 
 
-
+<hr>
+<div class="footnote">
+data: American Community Survey 5-year estimates<br>
+with thanks to EJ Fox and visual.ly for <a href = "http://blog.visual.ly/how-to-make-choropleth-maps-in-d3/">choropleth mapping in D3</a>
+</div>
 
 
 </body>

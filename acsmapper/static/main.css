@@ -1,6 +1,6 @@
 body {
 	font-family: sans-serif;
-	width: 800px;
+	width: 1024px;
 	margin: 0 auto;
 	padding: 10px;
 }
@@ -50,6 +50,12 @@ a:hover {
 	color: gray;
 }
 
+.tiny {
+	font-size: 10px;
+	font-family: "Times New Roman";
+	color: black;
+}
+
 .tiny-link {
 	font-size: 9px;
 	font-family: "Times New Roman";
@@ -59,6 +65,13 @@ a:hover {
 
 .footnote {
 	font-size: 9px;
+	font-family: "Helvetica";
+	color: black;
+}
+
+.map-key {
+	font-size: 12px;
+	font-weight: bold;
 	font-family: "Helvetica";
 	color: black;
 }
