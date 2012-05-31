@@ -133,7 +133,7 @@ def ACSmapJSON(APIKEY, table):
         county_results[str(i[3])+str(i[4])] = float(i[0])/float(i[1])
     county_result_total = sum(county_results.values())
     county_result_max = max(county_results.values())
-    county_result_scale = [round(100*county_result_max * i, 2)  for i in (0, .1, .3, .5, .7, .9)]
+    county_result_scale = [round(100*county_result_max * i, 2)  for i in (0, .1, .3, .5, .7, .9, 1)]
     
 #    district_results = {}
 #    for i in districts.results:
@@ -219,12 +219,6 @@ class ACSD3MapHandler(Handler):
         
         params = {}
         
-#        if self.acs_id:
-#            #self.render('ACSD3map.html', acs_id=self.acs_id, ACStables='', ACSselected=self.ACSselected)
-#            params['acs_id'] = self.acs_id
-#            params['ACStables'] = ACStables
-#            params['ACSselected'] = self.ACSselected
-            
         if self.acs_table:
             #county_colors, district_colors = ACSmapJSON(APIKEY, self.acs_table)
             county_colors, county_result_scale = ACSmapJSON(APIKEY, self.acs_table)

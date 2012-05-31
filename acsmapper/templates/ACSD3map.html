@@ -12,40 +12,10 @@
 
 <body>
 
-<!--
-	{% if ACStables %}
-	<form method = "post">
-
-		<select name="acs_id">
-			{% for id in ACStables %}
-			<option value={{id}}>{{id}}</option>
-			{% endfor %}
-		</select>
-	<input type="submit">
-	</form>
-	{% endif %}
-	
-	{% if ACSselected %}
-	<form method = "post">
-		<select name="acs_table">
-			{% for table in ACSselected %}
-			<option value={{table[0]}}>{{table[2]}}</option>
-			{% endfor %}
-		</select>
-	<input type="submit">		
-	</form>
-	{% endif %}
--->
-
-<!-- ####################### copy the code below to where you want the menu to appear ####################### -->
-
 <form name="formDoubleMenuDMA" >
 
-<p><font size="2">Select a subject and then a page to go!</FONT>:<br>
 
-<!-- This menu holds the subjects-->
-
-<select name="menuSubjectsDMA" onChange="changeFilesDMA()">
+<select name="menuSubjectsDMA" onChange="changeFilesDMA()" style="width:400">
 
 <option value="">Choose a topic</option>
 <option value="">B01001.  Sex by Age</option>
@@ -67,7 +37,6 @@
 <option value="">B19301.  Per Capita Income</option>
 <option value="">B20004.  Median Earnings by Sex by Educational Attainment for the Population 25 Years and Over</option>
 <option value="">B23001.  Sex by Age by Employment Status for the Population 16 Years and over</option>
-<option value="">B25001.  Housing Units</option>
 <option value="">B25002.  Occupancy Status</option>
 <option value="">B25003.  Tenure</option>
 <option value="">B25004.  Vacancy Status</option>
@@ -79,17 +48,15 @@
 		
 </select>
 
-<!-- this menu holds the files to go-->
 
-<select name="menuFilesDMA" onChange="goDMA(this)" style="width:300">
+<select name="menuFilesDMA" onChange="goDMA(this)" style="width:400">
 
-<option value="none"> Pages appear here
+<option value="none"> Choose a table
 
 </select>
 
 </form>
 
-<!-- ####################### stop copying the menu code (DMA) here ####################### -->
 
 
 <br>	
@@ -105,7 +72,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    width="100%" 
-   height="80%"
+   height="75%"
    viewBox="0 0 555.22198 351.66797"
    id="svg9559"
    sodipodi:version="0.32"
@@ -15893,22 +15860,22 @@
 <table cellpadding=5 class="map-key">
 	<tr>
 		<td bgcolor="#FEEDDE">
-			{{county_result_scale[0]}}% ->
+			{{county_result_scale[0]}}%  &#9656;
 		</td>
 		<td bgcolor="#FDD0A2">
-			{{county_result_scale[1]}}% ->
+			{{county_result_scale[1]}}%  &#9656;
 		</td>
 		<td bgcolor="#FDAE6B">
-			{{county_result_scale[2]}}% ->
+			{{county_result_scale[2]}}%  &#9656;
 		</td>
 		<td bgcolor="#FD8D3C">
-			{{county_result_scale[3]}}% ->
+			{{county_result_scale[3]}}%  &#9656;
 		</td>
 		<td bgcolor="#E6550D">
-			{{county_result_scale[4]}}% ->
+			{{county_result_scale[4]}}%  &#9656;
 		</td>
 		<td bgcolor="#A63603">
-			{{county_result_scale[5]}}% ->
+			{{county_result_scale[5]}}%  &#9656; {{county_result_scale[6]}}%
 		</td>
 	</tr>
 </table>
