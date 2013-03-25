@@ -22,7 +22,7 @@ import re
 from google.appengine.api import urlfetch
 import pickle
 
-APIKEY = '531b63cec265a38f8de88d58d3a25eb7cb62b6a5'
+APIKEY = 'XXXX'
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
